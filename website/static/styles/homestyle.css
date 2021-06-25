@@ -1,0 +1,41 @@
+.upload-container{
+    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-card{
+    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 0.5em 2em;
+    border-radius: 7px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(175, 175, 175);
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(116, 116, 116);
+  }
+
+
+

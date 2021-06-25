@@ -1,0 +1,4 @@
+env
+.vscode
+website/static/videos
+__pycache__

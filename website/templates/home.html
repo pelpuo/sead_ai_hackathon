@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block styling %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/homestyle.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center wtxt mt-3">Data Dashboard</h2>
+    <div class="row my-2 mb-3">
+        <div class="col-6 col-md-3 my-1" >
+            <div class="card disp-card">
+                <div class="card-body">
+                    <div class="ctitle">
+                        <img src="{{ url_for('static', filename='images/green.png') }}" alt="">
+                    </div>
+                    <div class="card-title my-1 scard-title" id="num-entry">
+                    </div>
+                    <p class="card-text scard-text">Current Entry</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 my-1" >
+            <div class="card disp-card">
+                <div class="card-body">
+                    <div class="ctitle">
+                        <img src="{{ url_for('static', filename='images/red.png') }}" alt="">
+                    </div>
+                    <div class="card-title my-1 scard-title" id="num-exit">
+                    </div>
+                    <p class="card-text scard-text">Current Exit</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 my-1" >
+            <div class="card disp-card">
+                <div class="card-body">
+                    <div class="ctitle">
+                        <img src="{{ url_for('static', filename='images/green.png') }}" alt="">
+                    </div>
+                    <div class="card-title my-1 scard-title" id="num-inside">
+                    </div>
+                    <p class="card-text scard-text">Current Inside</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3 my-1" >
+            <div class="card disp-card">
+                <div class="card-body">
+                    <div class="ctitle">
+                        <img src="{{ url_for('static', filename='images/green.png') }}" alt="">
+                    </div>
+                    <div class="card-title my-1 scard-title" id="num-total">
+                    </div>
+                    <p class="card-text scard-text">Overall total</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-end">
+        <div class="col-md-4">
+            <form   enctype="multipart/form-data" method="POST" action="/video" class="d-flex input-group mb-3">
+                <!-- <input type="file" class="form-control input-file" name="video" id="video"> -->
+                <label for="video" class="btn wtxt sbtn2" id="button" >Open</label>
+                <input type="text" id="fileName" readonly="readonly" >
+                <div class="file_input_div" style="display: inline;">
+                <input type="file" id="video" name="video"  style="opacity:0;display:none; position:relative; left:-40px;"  onchange="javascript: document.getElementById ('fileName') . value = this.value"/>
+                </div>
+                <input class="input-group-text btn wtxt sbtn2" for="inputGroupFile02" type="submit" value="Play">
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form method="GET" action="/" class="input-group mb-1">
+                <!-- <select class="form-select" aria-label="Default select example">
+                    <option selected>Choose Camera</option>
+                    {% for camera in data.cameras %}
+                        <option value="{{camera.port}}">Camera {{camera.port}} ({{camera.width}}x{{camera.height}})</option>
+                    {% endfor %}
+                  </select> -->
+                <input class="input-group-text btn wtxt sbtn" style="font-size: 0.8em;" for="inputGroupFile02" type="submit" value="Switch to Cam">
+            </form>
+        </div>
+    
+    </div>
+    <!-- <div class="row d-flex justify-content-end">
+
+        </div> -->
+
+    <div class="row my-2 d-flex align-items-start vidpluschart" style="padding:0;">
+        <div class="col-md-6 asdf">
+            <div class="disp-card">
+                <!-- <canvas id="myChart" style=" width:100%;max-width:600px; height:100%; min-height:300px;"></canvas> -->
+                <canvas id="myChart" style=" width:100%; height:100%; min-height:300px;"></canvas>
+            </div>
+        </div>
+
+        
+        <div class="col-md-6 asdf">
+            <div class="disp-card video">
+                <!-- <div class="video-mask"> -->
+                {% if data.video %}
+                   <!-- <img class="" style="max-height:320px" src="{{ url_for('handlers.video_feed', video=data.video.split('/')[-1]) }}" alt="video feed">  -->
+                   <img class="video-source" src="{{ url_for('handlers.video_feed', video=data.video.split('/')[-1]) }}" alt="video feed"> 
+               {% else %}
+                   <img class="video-source" src="{{ url_for('handlers.video_feed', video=0) }}" alt="video feed">
+               
+               {% endif %}
+               <!-- </div> -->
+            </div>
+           
+        </div>
+    </div>
+
+    
+    <!-- <div class="row my-3 mb-5">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="/add_entry" class="row">
+                <select class="form-control" name="status">
+                    <option value="entry">Entry</option>
+                    <option value="exit">Exit</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div> -->
+
+    <!-- <div class="row">
+    <div class="col-md-6 offset-md-3">
+    <ul class="list-group">
+        {% for customer in data.user.customers %}
+            <li class="list-group-item">{{ customer.id }} - {{ customer.status }} - {{customer.date.time().strftime("%H:%M:%S")}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+</div> -->
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        const config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Number of customers",
+                    backgroundColor: '#6BE2BE',
+                    borderColor: '#B1C7DF',
+                    data: [],
+                    fill: false,
+                    tension: 0.3
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Real time Customer Data'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        beginAtZero:true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Customers'
+                        }
+                    }]
+                }
+            },
+            scaleFontColor: "#FFFFFF"
+        };
+
+        var current = 0;
+        var entry = 0;
+        var exit = 0;
+        const context = document.getElementById('myChart').getContext('2d');
+
+        const lineChart = new Chart("myChart", config);
+
+        const source = new EventSource("{{ url_for('handlers.entry_data') }}");
+
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            numeric = []
+            for (let status of data.status) {
+
+                if (status == 'entry') {
+                    current++
+                    entry++
+                    numeric.push(current)
+                }
+                else if (status == 'exit') {
+                    current--
+                    exit++
+                    numeric.push(current)
+                }
+            }
+
+            document.querySelector("#num-entry").innerHTML = entry
+            document.querySelector('#num-exit').innerHTML = exit
+            document.querySelector('#num-total').innerHTML = entry + exit
+            document.querySelector('#num-inside').innerHTML = current
+
+            config.data.labels.push(...data.time);
+            config.data.datasets[0].data.push(...numeric);
+
+            while (config.data.labels.length >= 20) {
+                config.data.labels.shift();
+                config.data.datasets[0].data.shift();
+            }
+
+            //config.data.labels.append(data.time);
+            //config.data.datasets[0].data.append(data.status);
+            lineChart.update();
+
+
+        }
+
+
+
+    });
+</script>
+{% endblock %}
