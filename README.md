@@ -50,7 +50,7 @@ The flask app is a full stack website which was built using :
 
 ##### Login Page
 
-![Login Page](https://github.com/pelpuo/sead_ai_hackathon\images\Login.png)
+![Login Page](https://github.com/pelpuo/sead_ai_hackathon/tree/main/images\Login.png)
 
 This is the first page viewed by the user when the site is accessed. Authentication was implemented using Flask-login, which verifies the user using the data stored in the database managed by [Flask-SQLAlchemy](https://pypi.org/project/Flask-SQLAlchemy/).
 
@@ -58,7 +58,7 @@ This is the first page viewed by the user when the site is accessed. Authenticat
 
 ##### Sign Up Page
 
-![Sign Up Page](https://github.com/pelpuo/sead_ai_hackathon\images\Sign_up.png)
+![Sign Up Page](https://github.com/pelpuo/sead_ai_hackathon/tree/main/images\Sign_up.png)
 
 This page is directly accessible from the login page. After details are entered, validation is done on both frontend and backend, after which the user's details are stored in the database. Password hashing was done using [Werkzeug](https://pypi.org/project/Werkzeug/).
 
@@ -66,13 +66,13 @@ This page is directly accessible from the login page. After details are entered,
 
 ##### Dashboard
 
-![Dashboard](https://github.com/pelpuo/sead_ai_hackathon\images\Dashboard.png)
+![Dashboard](https://github.com/pelpuo/sead_ai_hackathon/tree/main/images\Dashboard.png)
 
 This page allows a user to feed in live camera footage or a recorded video after which the person counter algorithm performs detections in the video and returns output. If the output returned contained information about a person entering or leaving, the output is stored in the database. The line chart which was made using [Chart.js](https://www.chartjs.org/) is updated in real time whenever a new person entry is added to the database. The Cards above the chart and video feed, which also update in real time, also give information about the person count from the camera.
 
 ##### History
 
-![History Page](https://github.com/pelpuo/sead_ai_hackathon\images\History.png)
+![History Page](https://github.com/pelpuo/sead_ai_hackathon/tree/main/images\History.png)
 
 This page allows a user to view the data returned by the person counter algorithm from previous days. It also has a bar chart and line chart both made with [Chart.js,](https://www.chartjs.org/) which allow a user to visualize the data. The user can also download data to CSV for further analysis.
 
