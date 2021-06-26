@@ -1,20 +1,5 @@
 import cv2
 
-def gen_frames(video): 
-    print(video) 
-    camera = cv2.VideoCapture(video)
-    while True:
-        success, frame = camera.read()  # read the camera frame
-        if not success:
-            print('unsuccessful')
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
-
-
 def list_ports():
     is_working = True
     dev_port = 0

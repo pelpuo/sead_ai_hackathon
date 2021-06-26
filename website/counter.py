@@ -7,8 +7,6 @@ from . import db, app
 from datetime import datetime
 from .models import Customer
 
-located_customers = []
-
 # draw horizontal line for detection
 def detection_line(y_pos,frame):
     width = frame.shape[1]

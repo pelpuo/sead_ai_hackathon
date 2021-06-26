@@ -1,6 +1,6 @@
 from flask import Blueprint, Response, json, jsonify, request, render_template, flash, redirect, url_for, send_file, g
 from flask.templating import render_template
-# from .open_cv import gen_frames
+from .open_cv import list_ports
 from .counter import compute_people
 import time
 from datetime import datetime
@@ -14,19 +14,11 @@ from .counter import located_customers
 handlers = Blueprint('handlers', __name__)
 
 
-def retrieve_customers(id, customers, located_customers):
+def retrieve_customers(id, customers):
     with app.app_context():
         total_customers = 0
         while True:
             if id:
-                # if located_customers != []:
-                #     print(located_customers)
-                #     for located_customer in located_customers:
-                #         customer = Customer(date=located_customer["date"], status=located_customer["status"], user_id=id)
-                #         db.session.add(customer)
-                #     db.session.commit()
-                #     located_customers = []
-                
                 customers = Customer.query.filter_by(user_id=id).all()
 
                 if len(customers) > total_customers:
@@ -37,19 +29,6 @@ def retrieve_customers(id, customers, located_customers):
                     yield f"data:{json_data}\n\n"
                     total_customers = len(customers)
             time.sleep(3)
-
-            
-def get_customers(request):
-    if request.method == 'POST':
-        now = datetime.now()
-        customer_status = request.form.get('status')
-        
-        customer = Customer(date=now, status=customer_status, user_id=current_user.id)
-        db.session.add(customer)
-        db.session.commit()
-
-    customers = Customer.query.filter_by(user_id = current_user.id)
-    return customers
 
 
 @handlers.route("/video_feed")
