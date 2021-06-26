@@ -9,12 +9,11 @@ from . import db, app
 from .models import User, Customer
 from flask_login import current_user
 
-from .counter import located_customers
 
 handlers = Blueprint('handlers', __name__)
 
 
-def retrieve_customers(id, customers):
+def retrieve_customers(id):
     with app.app_context():
         total_customers = 0
         while True:
@@ -43,7 +42,7 @@ def video_feed(video):
 
 @handlers.route("/entry_data")
 def entry_data():
-    return Response(retrieve_customers(current_user.id, current_user.customers, located_customers), mimetype='text/event-stream')
+    return Response(retrieve_customers(current_user.id), mimetype='text/event-stream')
 
 
 @handlers.route("add_entry", methods=['POST'])
