@@ -36,7 +36,19 @@ A flask app was built to deploy the model and was equipped with charts to visual
 
 ### 1. People Counter Algorithm
 
-------------------------------------------------------------------To be Continued-----------------------------------------------------------------
+![Counter Algorithm](/images/algorithm.gif)
+
+#### Steps
+
+##### 1. Background Subtractor
+
+##### 2. Opening
+
+##### 3. Finding Contours
+
+##### 4. Final Result
+
+
 
 ### 2. Web App
 
