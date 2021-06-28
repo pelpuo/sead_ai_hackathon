@@ -1,14 +1,15 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 from flask_login import login_required, current_user
-from .open_cv import list_ports
 
 views = Blueprint('views', __name__)
 
-@views.route("/")
+@views.route("/", methods=["GET", "POST"])
 @login_required
 def home():
-    # working_ports = list_ports()
-    # working_ports = [0]
+    if request.method == "POST":
+        camera = request.form.get("camera")
+        if camera:
+            return render_template("home.html", data={"user":current_user, 'video':camera, 'live':True})
     return render_template("home.html", data={"user":current_user})
 
 @views.route("/history")

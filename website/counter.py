@@ -16,8 +16,16 @@ def compute_people(video, user_id):
     with app.app_context():
         cap = cv2.VideoCapture(video)
 
-        frames_count, fps, width, height = cap.get(cv2.CAP_PROP_FRAME_COUNT), cap.get(cv2.CAP_PROP_FPS), cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        live_video = False
 
+        frames_count, fps, width, height = cap.get(cv2.CAP_PROP_FRAME_COUNT), cap.get(cv2.CAP_PROP_FPS), cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        
+        if frames_count == -1:
+            live_video = True
+            frames_count = 2
+
+        print(frames_count)
+        
         width = int(width)
         height = int(height)
 
@@ -47,10 +55,13 @@ def compute_people(video, user_id):
                 opening = cv2.morphologyEx(mask2, cv2.MORPH_OPEN, kernel)
                 contours, hierarchy = cv2.findContours(opening, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 
-                lineypos = 130
+                # lineypos = 130
+                mid = frame.shape[0] // 2
+                lineypos = mid - 10
                 cv2.line(frame, (0, lineypos), (width, lineypos), (255, 0, 0), 2)
 
-                lineypos2 = 140
+                # lineypos2 = 140
+                lineypos2 = mid 
                 detection_line(lineypos2,frame)
                 
                 minarea = 1000
@@ -251,29 +262,41 @@ def compute_people(video, user_id):
 
                             db.session.commit()
 
-                cv2.putText(frame, "Entry Count: " + str(entering), (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
+                # cv2.putText(frame, "Entry Count: " + str(entering), (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
 
-                cv2.putText(frame, "Exit Count: " + str(exiting), (0, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0),1)    
+                # cv2.putText(frame, "Exit Count: " + str(exiting), (0, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0),1)    
 
-                cv2.putText(frame, "Count of People Inside: " + str(entering-exiting), (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
+                # cv2.putText(frame, "Count of People Inside: " + str(entering-exiting), (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
 
-                cv2.putText(frame, "Frame: " + str(framenumber) + ' of ' + str(frames_count), (0, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+                cv2.putText(frame, "Frame: " + str(framenumber) + ' of ' + str(frames_count), (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
 
                 # adds to framecount
                 framenumber = framenumber + 1
 
+                if live_video:
+                    # df.append(pd.DataFrame({"Index": [frames_count+1]}))
+                    # print(df)
+                    # df = pd.DataFrame(index=range(int(frames_count+10)))
+                    # df.index.name = "Frames"
+                    # print(df)
+                    pass
+
+
+                # print(df)
+
                 # k = cv2.waitKey(30) & 0xff
                 # if k == 27:
                 #     break
                 
-                ret, buffer = cv2.imencode('.jpg', frame)
-                frame = buffer.tobytes()
-                yield (b'--frame\r\n'
-                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
-    # else:  # if video is finished then break loop
-    #     break
+                
+            else:  # if video is finished then break loop
+                break
 
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
     # cap.release()
 # cv2.destroyAllWindows()
 

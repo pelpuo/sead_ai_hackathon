@@ -1,9 +1,10 @@
-
-
 body{
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(133.84deg, #4E4E4E -16.04%, #333333 9.33%, #1A1A1A 32.02%, #1A1A1A 62.06%, #262626 87.42%, #4E4E4E 112.12%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .disp-card{
@@ -26,6 +27,10 @@ body{
     font-size: 0.8em;
   }
 
+.card-icon{
+  width: 1.5em;
+}
+
 
 .wtxt{
   color: #fff;
@@ -40,6 +45,17 @@ body{
     border: 0;
 }
 
+.i-sbtn{
+  /* width: 100%; */
+  background: linear-gradient(185.6deg, #0D469E -6.93%, #29C4F9 74.77%, #5CE357 109.92%);
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.8em;
+  border: 0;
+  width: 100%;
+}
+
 .sbtn2{
   /* width: 100%; */
   background: linear-gradient(185.6deg, #0D469E -6.93%, #29C4F9 74.77%, #5CE357 109.92%);
@@ -48,6 +64,16 @@ body{
   font-size: 0.8em;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+.sinput{
+  color: #eee;
+  background-color: #262626;
+  border: 0;
+}
+
+.sinput option{
+  background-color: #262626;
 }
 
 .input-file, #fileName{
@@ -221,11 +247,12 @@ a .date .active{
 }
 
 .vidpluschart{
-  height: 300px;
+  /* height: 300px; */
 }
 
 .video{
-  height: 100%;
+  /* height: 100%; */
+  height: 300px;
   width: 100%; 
   background: #111 !important;
   display: flex;

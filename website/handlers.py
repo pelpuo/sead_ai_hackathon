@@ -1,4 +1,4 @@
-from flask import Blueprint, Response, json, jsonify, request, render_template, flash, redirect, url_for, send_file, g
+from flask import Blueprint, Response, json, jsonify, request, render_template, flash, redirect, url_for, send_file
 from flask.templating import render_template
 from .open_cv import list_ports
 from .counter import compute_people
@@ -7,7 +7,7 @@ from datetime import datetime
 import random, json
 from . import db, app
 from .models import User, Customer
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 
 handlers = Blueprint('handlers', __name__)
@@ -27,13 +27,13 @@ def retrieve_customers(id):
                         {'time': [x.time().strftime('%H:%M:%S') for x in date], 'status': status})
                     yield f"data:{json_data}\n\n"
                     total_customers = len(customers)
-            time.sleep(3)
+            time.sleep(1)
 
 
 @handlers.route("/video_feed")
 @handlers.route("/video_feed/<video>")
 def video_feed(video):
-    if video != '0':
+    if len(video.split('.')) != 1:
         video = 'website/static/videos/' + video
     else:
         video = int(video)
@@ -68,5 +68,23 @@ def video():
     if video.filename != '':
         video_name = "videos/video." + video.filename.split(".")[-1]
         video.save('website/static/' + video_name)
-        return render_template("home.html", data={"user":current_user, 'video':video_name})
+        return render_template("home.html", data={"user":current_user, 'video':video_name, 'live':False})
     return redirect(url_for("views.home"))
+
+
+@handlers.route("/scan")
+def scan_cameras():
+    ports = list_ports()
+    return jsonify({'cameras':ports})
+
+
+@handlers.route("/clear", methods=["DELETE"])
+def clear():
+    # query = delete(Customer).where(Customer.date.date() == datetime.now().date() and Customer.user_id == current_user.id)
+    # db.session.execute(query)
+    customers = Customer.query.filter_by(user_id=current_user.id).all()
+    for customer in customers:
+        if customer.date.date() == datetime.now().date():
+            db.session.delete(customer)
+    db.session.commit()
+    return jsonify({'success':True})
