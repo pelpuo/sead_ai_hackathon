@@ -276,8 +276,3 @@ def compute_people(video, user_id):
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
-    # cap.release()
-# cv2.destroyAllWindows()
-
-# saves dataframe to csv file for later analysis
-# df.to_csv('People.csv', sep=',')
