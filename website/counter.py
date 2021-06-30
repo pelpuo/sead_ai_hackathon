@@ -42,7 +42,7 @@ def compute_people(video, user_id):
         has_crossed = []  # blank list to add people ids that have crossed
         totalpeople = 0  # keeps track of total people
 
-        object_detector = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=40, detectShadows=False)
+        object_detector = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=60, detectShadows=False)
 
         while True:
             has_frame, frame = cap.read()
@@ -64,7 +64,7 @@ def compute_people(video, user_id):
                 lineypos2 = mid 
                 detection_line(lineypos2,frame)
                 
-                minarea = 1000
+                minarea = 500 #1000
                 maxarea = 10000
 
                 # vectors for the x and y locations of contour centroids in current frame
@@ -215,13 +215,7 @@ def compute_people(video, user_id):
                     if curcent:  # if there is a current centroid
 
                         if oldcent:  # checks if old centroid exists
-                            # adds radius box from previous centroid to current centroid for visualization
-                            xstart = oldcent[0] - maxrad
-                            ystart = oldcent[1] - maxrad
-                            xwidth = oldcent[0] + maxrad
-                            yheight = oldcent[1] + maxrad
 
-                            now = datetime.now()
                             # checks if old centroid is on or below line and curcent is on or above line
                             # to count persons and that person hasn't been counted yet
                             if oldcent[1] >= lineypos2 and curcent[1] <= lineypos2 and PersonIDs[currentpeopleindex[i]] not in has_crossed:
@@ -262,26 +256,11 @@ def compute_people(video, user_id):
 
                             db.session.commit()
 
-                # cv2.putText(frame, "Entry Count: " + str(entering), (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
-
-                # cv2.putText(frame, "Exit Count: " + str(exiting), (0, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0),1)    
-
-                # cv2.putText(frame, "Count of People Inside: " + str(entering-exiting), (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0, 0, 0), 1)
-
                 cv2.putText(frame, "Frame: " + str(framenumber) + ' of ' + str(frames_count), (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
 
                 # adds to framecount
                 framenumber = framenumber + 1
-
-                if live_video:
-                    # df.append(pd.DataFrame({"Index": [frames_count+1]}))
-                    # print(df)
-                    # df = pd.DataFrame(index=range(int(frames_count+10)))
-                    # df.index.name = "Frames"
-                    # print(df)
-                    pass
-
 
                 # print(df)
 
