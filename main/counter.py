@@ -20,20 +20,15 @@ def compute_people(video, user_id):
 
         frames_count, fps, width, height = cap.get(cv2.CAP_PROP_FRAME_COUNT), cap.get(cv2.CAP_PROP_FPS), cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         
-
-        print(frames_count)
-        
         width = int(width)
         height = int(height)
 
         size = (width, height)
 
         # creates a pandas data frame with the number of rows the same length as frame count
-        df = 0
         if frames_count == -1:
-            df = pd.DataFrame(index=range(int(1000000000)))
-        else:
-            df = pd.DataFrame(index=range(int(frames_count)))
+            frames_count = 1000000
+        df = pd.DataFrame(index=range(int(frames_count)))
         df.index.name = "Frames"
 
         framenumber = 0  # keeps track of current frame
