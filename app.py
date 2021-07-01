@@ -1,4 +1,4 @@
-from website import app
+from main import app
 
 # app = create_app("prod")
 app.app_context().push()
