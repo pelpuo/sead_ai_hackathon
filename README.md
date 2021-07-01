@@ -40,13 +40,11 @@ A flask app was built to deploy the model and was equipped with charts to visual
 
 #### Steps
 
-##### 1. Background Subtractor
+The algorithm first uses background subtraction to obtain the foreground which comprises of the moving individuals. The obtained result is subject to a lot of noise due to light and shadow movement. 
 
-##### 2. Opening
+Thresholding is then used to filter out some of the noise but a few may remain. These are removed using the opening function in OpenCV. The opening function is comprised of two other functions: erosion and dilation. Erosion is a morphological image processing technique that takes out pixels. Dilation is then carried out to add pixels to each frame. These two operations take out a significant amount of noise from the frames obtained after background subtraction. 
 
-##### 3. Finding Contours
-
-##### 4. Final Result
+Contours of each detected moving object are then found and the area of each compared to a specified range. Contours within this range are then tracked and the direction of movement past a stated y position indicated by a line gives a sense of whether a person is entering or leaving.
 
 
 
