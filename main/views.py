@@ -20,7 +20,7 @@ def history():
     dates = [customer.date.strftime('%d-%m-%Y') for customer in current_user.customers]
     dates = set(dates)
     dates = list(dates)
-    dates.sort()
+    # dates.sort()
     dates.reverse()
     print(dates)
     return render_template("history.html", data={"user":current_user, 'dates': dates})
@@ -41,7 +41,7 @@ def all_history():
     dates = [customer.date.strftime('%d-%m-%Y') for customer in current_user.customers]
     dates = set(dates)
     dates = list(dates)
-    dates.sort()
+    # dates.sort()
     
     tallies = []
     for date in dates:
@@ -53,5 +53,4 @@ def all_history():
                 else:
                     tally -= 1
         tallies.append(tally)
-    print(tallies)
     return jsonify({'dates':dates, 'tallies':tallies})

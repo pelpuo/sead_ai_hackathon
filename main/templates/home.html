@@ -218,8 +218,10 @@
             document.querySelector('#num-total').innerHTML = entry + exit
             document.querySelector('#num-inside').innerHTML = current
 
-            config.data.labels.push(...data.time);
-            config.data.datasets[0].data.push(...numeric);
+            //config.data.labels.push(...data.time);
+            //config.data.datasets[0].data.push(...numeric);
+            config.data.labels = data.time;
+            config.data.datasets[0].data = numeric;
 
             while (config.data.labels.length >= 20) {
                 config.data.labels.shift();
