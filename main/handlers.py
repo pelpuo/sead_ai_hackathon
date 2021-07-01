@@ -34,7 +34,7 @@ def retrieve_customers(id):
 @handlers.route("/video_feed/<video>")
 def video_feed(video):
     if len(video.split('.')) != 1:
-        video = 'website/static/videos/' + video
+        video = 'main/static/videos/' + video
     else:
         video = int(video)
     return Response(compute_people(video, current_user.id), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -67,7 +67,7 @@ def video():
     video = request.files["video"]
     if video.filename != '':
         video_name = "videos/video." + video.filename.split(".")[-1]
-        video.save('website/static/' + video_name)
+        video.save('main/static/' + video_name)
         return render_template("home.html", data={"user":current_user, 'video':video_name, 'live':False})
     return redirect(url_for("views.home"))
 

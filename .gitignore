@@ -1,4 +1,4 @@
 env
 .vscode
-website/static/videos
+main/static/videos
 __pycache__
